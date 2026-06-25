@@ -112,8 +112,21 @@ async function userLogoutController(req,res){
     })
 }
 
+async function getMeController(req,res){
+    const userId = req.user.id;
+    const user = await userModel.findById(userId).select("-password");
+    res.status(200).json({ 
+        message:"user fetched successfully",
+        user:{
+            username:user.username,
+            email:user.email,
+            id:user._id
+        } });
+}
+
 module.exports = {
     userRegisterController,
     userLoginController,
-    userLogoutController
+    userLogoutController,
+    getMeController
 };
